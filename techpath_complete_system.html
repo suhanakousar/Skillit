@@ -1,0 +1,267 @@
+
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+.sys{padding:1rem 0;font-family:var(--font-sans)}
+.zone{border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:12px 14px;margin-bottom:12px}
+.zone-title{font-size:11px;font-weight:500;letter-spacing:0.07em;text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:7px}
+.zt-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.mod-grid{display:grid;gap:7px}
+.mod{border-radius:8px;padding:9px 11px;border:0.5px solid}
+.mod-name{font-size:12px;font-weight:500;margin-bottom:3px}
+.mod-desc{font-size:11px;line-height:1.4}
+.tag-row{display:flex;flex-wrap:wrap;gap:3px;margin-top:5px}
+.tag{font-size:10px;border-radius:20px;padding:2px 7px;border:0.5px solid}
+
+.z-purple .zt-dot{background:#534AB7}
+.z-purple .zone-title{color:#3C3489}
+.z-teal .zt-dot{background:#1D9E75}
+.z-teal .zone-title{color:#085041}
+.z-amber .zt-dot{background:#BA7517}
+.z-amber .zone-title{color:#633806}
+.z-blue .zt-dot{background:#378ADD}
+.z-blue .zone-title{color:#0C447C}
+.z-green .zt-dot{background:#639922}
+.z-green .zone-title{color:#27500A}
+.z-coral .zt-dot{background:#D85A30}
+.z-coral .zone-title{color:#712B13}
+.z-pink .zt-dot{background:#D4537E}
+.z-pink .zone-title{color:#72243E}
+
+.m-purple{background:#EEEDFE;border-color:#AFA9EC}.m-purple .mod-name{color:#3C3489}.m-purple .mod-desc{color:#534AB7}
+.m-teal{background:#E1F5EE;border-color:#9FE1CB}.m-teal .mod-name{color:#085041}.m-teal .mod-desc{color:#0F6E56}
+.m-amber{background:#FAEEDA;border-color:#FAC775}.m-amber .mod-name{color:#633806}.m-amber .mod-desc{color:#854F0B}
+.m-blue{background:#E6F1FB;border-color:#B5D4F4}.m-blue .mod-name{color:#0C447C}.m-blue .mod-desc{color:#185FA5}
+.m-green{background:#EAF3DE;border-color:#C0DD97}.m-green .mod-name{color:#27500A}.m-green .mod-desc{color:#3B6D11}
+.m-coral{background:#FAECE7;border-color:#F5C4B3}.m-coral .mod-name{color:#712B13}.m-coral .mod-desc{color:#993C1D}
+.m-pink{background:#FBEAF0;border-color:#F4C0D1}.m-pink .mod-name{color:#72243E}.m-pink .mod-desc{color:#993556}
+.m-gray{background:var(--color-background-secondary);border-color:var(--color-border-secondary)}.m-gray .mod-name{color:var(--color-text-primary)}.m-gray .mod-desc{color:var(--color-text-secondary)}
+
+.t-purple{background:#EEEDFE;border-color:#AFA9EC;color:#3C3489}
+.t-teal{background:#E1F5EE;border-color:#9FE1CB;color:#085041}
+.t-amber{background:#FAEEDA;border-color:#FAC775;color:#633806}
+.t-blue{background:#E6F1FB;border-color:#B5D4F4;color:#0C447C}
+.t-green{background:#EAF3DE;border-color:#C0DD97;color:#27500A}
+.t-coral{background:#FAECE7;border-color:#F5C4B3;color:#712B13}
+.t-pink{background:#FBEAF0;border-color:#F4C0D1;color:#72243E}
+
+.cols2{grid-template-columns:1fr 1fr}
+.cols3{grid-template-columns:1fr 1fr 1fr}
+.divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:14px 0}
+.section-head{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:10px;margin-top:16px}
+.flow-row{display:flex;align-items:center;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.flow-pill{font-size:11px;font-weight:500;padding:5px 10px;border-radius:20px;border:0.5px solid}
+.flow-arr{color:var(--color-text-tertiary);font-size:12px}
+.legend{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:14px}
+.leg-item{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--color-text-secondary)}
+.leg-dot{width:8px;height:8px;border-radius:50%}
+</style>
+
+<div class="sys">
+<h2 class="sr-only">TechPath complete system — all 8 platform modules and their connections</h2>
+
+<div class="section-head">Student journey flow</div>
+<div class="flow-row">
+  <div class="flow-pill m-gray">Sign up</div><span class="flow-arr">→</span>
+  <div class="flow-pill m-purple">Profile + goal</div><span class="flow-arr">→</span>
+  <div class="flow-pill m-teal">Roadmap generated</div><span class="flow-arr">→</span>
+  <div class="flow-pill m-blue">Learn (story mode)</div><span class="flow-arr">→</span>
+  <div class="flow-pill m-amber">Quiz + practice</div><span class="flow-arr">→</span>
+  <div class="flow-pill m-green">Certifications</div><span class="flow-arr">→</span>
+  <div class="flow-pill m-coral">Career layer</div>
+</div>
+
+<hr class="divider">
+
+<div class="zone z-purple">
+  <div class="zone-title"><span class="zt-dot"></span>1 — Guided roadmap engine</div>
+  <div class="mod-grid cols3">
+    <div class="mod m-purple">
+      <div class="mod-name">Smart roadmap</div>
+      <div class="mod-desc">Personalized by year, branch, goal. Unlocks topics in order. Shows % to job-ready.</div>
+      <div class="tag-row"><span class="tag t-purple">AI-generated</span><span class="tag t-purple">Adaptive</span></div>
+    </div>
+    <div class="mod m-purple">
+      <div class="mod-name">Skill tree</div>
+      <div class="mod-desc">Visual prerequisite map. Complete node A to unlock B. Game-style progression.</div>
+      <div class="tag-row"><span class="tag t-purple">Visual</span><span class="tag t-purple">Gamified</span></div>
+    </div>
+    <div class="mod m-purple">
+      <div class="mod-name">Daily focus</div>
+      <div class="mod-desc">"Today's 3 tasks" based on streak, weak areas, upcoming contest deadlines.</div>
+      <div class="tag-row"><span class="tag t-purple">Streak</span><span class="tag t-purple">Smart nudge</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="zone z-blue">
+  <div class="zone-title"><span class="zt-dot"></span>2 — Learning platform (story mode)</div>
+  <div class="mod-grid cols3">
+    <div class="mod m-blue">
+      <div class="mod-name">Story lessons</div>
+      <div class="mod-desc">Every concept taught as a narrative with real-world analogy. No dry theory.</div>
+      <div class="tag-row"><span class="tag t-blue">Like Duolingo</span></div>
+    </div>
+    <div class="mod m-blue">
+      <div class="mod-name">Visual explainers</div>
+      <div class="mod-desc">Animated diagrams for DSA, OS, Networks, ML. See the algorithm move.</div>
+      <div class="tag-row"><span class="tag t-blue">Interactive</span></div>
+    </div>
+    <div class="mod m-blue">
+      <div class="mod-name">AI tutor chat</div>
+      <div class="mod-desc">Ask questions mid-lesson. Get personalized explanation, not copy-paste docs.</div>
+      <div class="tag-row"><span class="tag t-blue">Claude API</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="zone z-amber">
+  <div class="zone-title"><span class="zt-dot"></span>3 — Practice arena (like LeetCode + HackerRank)</div>
+  <div class="mod-grid cols3">
+    <div class="mod m-amber">
+      <div class="mod-name">Code sandbox</div>
+      <div class="mod-desc">In-browser code editor. Run against test cases. Python, Java, C++, JS supported.</div>
+      <div class="tag-row"><span class="tag t-amber">Judge0 engine</span></div>
+    </div>
+    <div class="mod m-amber">
+      <div class="mod-name">Problem sets</div>
+      <div class="mod-desc">Tagged by topic + difficulty. Curated per roadmap stage. Company-wise filters.</div>
+      <div class="tag-row"><span class="tag t-amber">Easy / Med / Hard</span></div>
+    </div>
+    <div class="mod m-amber">
+      <div class="mod-name">Smart hints</div>
+      <div class="mod-desc">3-level hint system — nudge, approach, partial code. Never gives full answer first.</div>
+      <div class="tag-row"><span class="tag t-amber">Guided</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="zone z-teal">
+  <div class="zone-title"><span class="zt-dot"></span>4 — Gaming zone (like CodeCombat + puzzles)</div>
+  <div class="mod-grid cols3">
+    <div class="mod m-teal">
+      <div class="mod-name">Code battles</div>
+      <div class="mod-desc">1v1 or team — solve the same problem, who finishes first. Real-time countdown.</div>
+      <div class="tag-row"><span class="tag t-teal">Multiplayer</span></div>
+    </div>
+    <div class="mod m-teal">
+      <div class="mod-name">Puzzle mode</div>
+      <div class="mod-desc">Drag-and-drop logic puzzles, fill-the-blank code, concept crosswords. Brain games.</div>
+      <div class="tag-row"><span class="tag t-teal">No typing needed</span></div>
+    </div>
+    <div class="mod m-teal">
+      <div class="mod-name">Weekly contests</div>
+      <div class="mod-desc">Time-limited challenges. Ranked globally + by college. Badge + XP rewards.</div>
+      <div class="tag-row"><span class="tag t-teal">Leaderboard</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="zone z-green">
+  <div class="zone-title"><span class="zt-dot"></span>5 — Certifications + assignments</div>
+  <div class="mod-grid cols2">
+    <div class="mod m-green">
+      <div class="mod-name">Module certificates</div>
+      <div class="mod-desc">Complete a full track (DSA, Full Stack, ML etc.) — earn a TechPath certificate. Shareable on LinkedIn.</div>
+      <div class="tag-row"><span class="tag t-green">Verifiable</span><span class="tag t-green">LinkedIn-ready</span></div>
+    </div>
+    <div class="mod m-green">
+      <div class="mod-name">Assignments + projects</div>
+      <div class="mod-desc">Build a mini-project at end of each track. Auto-reviewed + peer-reviewed. Portfolio worthy.</div>
+      <div class="tag-row"><span class="tag t-green">Portfolio project</span><span class="tag t-green">Peer review</span></div>
+    </div>
+    <div class="mod m-green">
+      <div class="mod-name">Exam prep mode</div>
+      <div class="mod-desc">Timed mock tests per subject — DBMS, OS, Networks, Algorithms. University + GATE style.</div>
+      <div class="tag-row"><span class="tag t-green">GATE</span><span class="tag t-green">Placements</span></div>
+    </div>
+    <div class="mod m-green">
+      <div class="mod-name">External cert guide</div>
+      <div class="mod-desc">AWS, Oracle, Google Cloud prep paths built in. Know exactly what to study and in what order.</div>
+      <div class="tag-row"><span class="tag t-green">AWS CLF</span><span class="tag t-green">GCP ACE</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="zone z-coral">
+  <div class="zone-title"><span class="zt-dot"></span>6 — Career layer (your killer feature)</div>
+  <div class="mod-grid cols3">
+    <div class="mod m-coral">
+      <div class="mod-name">Job readiness score</div>
+      <div class="mod-desc">"You're 62% ready for Amazon SDE-1. Complete these 8 topics to close the gap."</div>
+      <div class="tag-row"><span class="tag t-coral">Per company</span></div>
+    </div>
+    <div class="mod m-coral">
+      <div class="mod-name">Mock interviews</div>
+      <div class="mod-desc">AI interviewer asks real questions. Evaluates answer quality, approach, time taken.</div>
+      <div class="tag-row"><span class="tag t-coral">DSA + HR + LLD</span></div>
+    </div>
+    <div class="mod m-coral">
+      <div class="mod-name">Resume builder</div>
+      <div class="mod-desc">Auto-generates resume from your completed projects + certs. JD-specific versions.</div>
+      <div class="tag-row"><span class="tag t-coral">LaTeX export</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="zone z-pink">
+  <div class="zone-title"><span class="zt-dot"></span>7 — Community + social</div>
+  <div class="mod-grid cols3">
+    <div class="mod m-pink">
+      <div class="mod-name">College leaderboard</div>
+      <div class="mod-desc">Rank within your college. Weekly reset. Drives daily return habit better than global ranks.</div>
+      <div class="tag-row"><span class="tag t-pink">KLU / VVIT etc.</span></div>
+    </div>
+    <div class="mod m-pink">
+      <div class="mod-name">Study rooms</div>
+      <div class="mod-desc">Join topic-based rooms — "DSA grind", "ML basics". Share notes, solve together live.</div>
+      <div class="tag-row"><span class="tag t-pink">Collaborative</span></div>
+    </div>
+    <div class="mod m-pink">
+      <div class="mod-name">Senior mentors</div>
+      <div class="mod-desc">4th years mentor juniors. Earn XP for helping. The cycle you wanted when you started.</div>
+      <div class="tag-row"><span class="tag t-pink">Peer mentorship</span></div>
+    </div>
+  </div>
+</div>
+
+<div class="zone z-teal" style="border-color:var(--color-border-secondary)">
+  <div class="zone-title"><span class="zt-dot" style="background:#888"></span>8 — Tech tracks available (all covered)</div>
+  <div class="mod-grid cols3">
+    <div class="mod m-gray">
+      <div class="mod-name">DSA</div>
+      <div class="mod-desc">Arrays → Trees → Graphs → DP → System Design</div>
+    </div>
+    <div class="mod m-gray">
+      <div class="mod-name">Full stack</div>
+      <div class="mod-desc">HTML/CSS → React → Node/FastAPI → Databases → Deploy</div>
+    </div>
+    <div class="mod m-gray">
+      <div class="mod-name">DBMS + SQL</div>
+      <div class="mod-desc">ER model → Normalization → SQL → PostgreSQL → MongoDB</div>
+    </div>
+    <div class="mod m-gray">
+      <div class="mod-name">OS + Networks</div>
+      <div class="mod-desc">Processes → Memory → Scheduling → TCP/IP → HTTP</div>
+    </div>
+    <div class="mod m-gray">
+      <div class="mod-name">ML + Deep Learning</div>
+      <div class="mod-desc">Regression → Trees → Neural nets → CNNs → Transformers</div>
+    </div>
+    <div class="mod m-gray">
+      <div class="mod-name">Cloud + DevOps</div>
+      <div class="mod-desc">Linux → Git → Docker → AWS → CI/CD pipelines</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+<div style="display:flex;flex-wrap:wrap;gap:8px;font-size:11px;color:var(--color-text-secondary);align-items:center">
+  <span style="font-weight:500;color:var(--color-text-primary)">Competes with:</span>
+  <span>LeetCode (practice)</span><span style="color:var(--color-border-secondary)">·</span>
+  <span>HackerRank (contests)</span><span style="color:var(--color-border-secondary)">·</span>
+  <span>Duolingo (story UX)</span><span style="color:var(--color-border-secondary)">·</span>
+  <span>Coursera (certs)</span><span style="color:var(--color-border-secondary)">·</span>
+  <span>CodeCombat (gaming)</span>
+  <span style="margin-left:8px;padding:3px 8px;background:#EEEDFE;border-radius:20px;color:#3C3489;border:0.5px solid #AFA9EC;font-weight:500;">Beats all: India-first, college-aware, end-to-end</span>
+</div>
+</div>
