@@ -1,0 +1,552 @@
+
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: var(--font-sans); }
+  .rm-wrap { padding: 1.5rem 0; max-width: 680px; }
+  .rm-header { text-align: center; margin-bottom: 2rem; }
+  .rm-header h1 { font-size: 22px; font-weight: 500; color: var(--color-text-primary); }
+  .rm-header p { font-size: 14px; color: var(--color-text-secondary); margin-top: 6px; }
+  .level-block { border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden; margin-bottom: 16px; }
+  .level-head { display: flex; align-items: center; gap: 12px; padding: 14px 18px; cursor: pointer; user-select: none; }
+  .level-head:hover { background: var(--color-background-secondary); }
+  .level-badge { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 20px; white-space: nowrap; }
+  .badge-beginner { background: #EAF3DE; color: #3B6D11; }
+  .badge-intermediate { background: #E6F1FB; color: #185FA5; }
+  .badge-advanced { background: #FAEEDA; color: #854F0B; }
+  .badge-pro { background: #EEEDFE; color: #534AB7; }
+  .level-title { font-size: 15px; font-weight: 500; color: var(--color-text-primary); flex: 1; }
+  .level-meta { font-size: 12px; color: var(--color-text-secondary); }
+  .chevron { font-size: 12px; color: var(--color-text-tertiary); transition: transform 0.2s; }
+  .chevron.open { transform: rotate(90deg); }
+  .level-body { display: none; border-top: 0.5px solid var(--color-border-tertiary); }
+  .level-body.open { display: block; }
+  .topics-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 8px; padding: 16px 18px; }
+  .topic-chip { background: var(--color-background-secondary); border-radius: var(--border-radius-md); padding: 8px 12px; font-size: 13px; color: var(--color-text-primary); border: 0.5px solid var(--color-border-tertiary); }
+  .topic-chip .t-num { font-size: 11px; color: var(--color-text-tertiary); font-weight: 400; }
+  .resources-section { border-top: 0.5px solid var(--color-border-tertiary); padding: 14px 18px; }
+  .res-label { font-size: 11px; font-weight: 500; color: var(--color-text-secondary); letter-spacing: 0.05em; text-transform: uppercase; margin-bottom: 10px; }
+  .res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .res-card { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); background: var(--color-background-primary); text-decoration: none; transition: background 0.15s; }
+  .res-card:hover { background: var(--color-background-secondary); }
+  .res-icon { width: 28px; height: 28px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .ri-free { background: #EAF3DE; }
+  .ri-paid { background: #FAEEDA; }
+  .ri-video { background: #EEEDFE; }
+  .ri-doc { background: #E6F1FB; }
+  .res-info { flex: 1; min-width: 0; }
+  .res-name { font-size: 13px; font-weight: 500; color: var(--color-text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .res-sub { font-size: 11px; color: var(--color-text-secondary); margin-top: 2px; }
+  .res-tag { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 10px; margin-top: 3px; }
+  .tag-free { background: #EAF3DE; color: #3B6D11; }
+  .tag-paid { background: #FAEEDA; color: #854F0B; }
+  .connector { display: flex; justify-content: center; margin: -4px 0; color: var(--color-text-tertiary); font-size: 18px; }
+  .track-row { display: flex; gap: 8px; padding: 12px 18px 0; flex-wrap: wrap; }
+  .track-btn { font-size: 12px; padding: 5px 12px; border-radius: 20px; border: 0.5px solid var(--color-border-secondary); background: var(--color-background-primary); color: var(--color-text-secondary); cursor: pointer; transition: all 0.15s; }
+  .track-btn:hover, .track-btn.active { background: var(--color-background-info); color: var(--color-text-info); border-color: transparent; }
+  .proj-list { list-style: none; padding: 0 18px 16px; }
+  .proj-list li { font-size: 13px; color: var(--color-text-secondary); padding: 5px 0; border-bottom: 0.5px solid var(--color-border-tertiary); display: flex; align-items: center; gap: 8px; }
+  .proj-list li:last-child { border-bottom: none; }
+  .proj-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .all-res { padding: 18px; }
+  .all-res-title { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 14px; }
+  .big-res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .big-res-card { display: flex; flex-direction: column; gap: 4px; padding: 12px 14px; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); background: var(--color-background-primary); text-decoration: none; transition: background 0.15s; }
+  .big-res-card:hover { background: var(--color-background-secondary); }
+  .big-res-name { font-size: 14px; font-weight: 500; color: var(--color-text-primary); }
+  .big-res-desc { font-size: 12px; color: var(--color-text-secondary); line-height: 1.5; }
+  .big-res-foot { display: flex; gap: 6px; margin-top: 4px; }
+  .pill { font-size: 10px; padding: 2px 7px; border-radius: 10px; }
+  .pill-free { background: #EAF3DE; color: #3B6D11; }
+  .pill-paid { background: #FAEEDA; color: #854F0B; }
+  .pill-cert { background: #EEEDFE; color: #534AB7; }
+  .pill-pdf { background: #E6F1FB; color: #185FA5; }
+  .pill-ext { background: #FAECE7; color: #993C1D; }
+  .section-divider { font-size: 11px; font-weight: 500; color: var(--color-text-tertiary); letter-spacing: 0.06em; text-transform: uppercase; padding: 8px 18px 4px; }
+</style>
+
+<div class="rm-wrap">
+  <div class="rm-header">
+    <h1>Python: Beginner to Pro — Complete Roadmap</h1>
+    <p>Click any stage to expand topics, resources, and projects</p>
+  </div>
+
+  <!-- STAGE 1 -->
+  <div class="level-block">
+    <div class="level-head" onclick="toggle('s1')">
+      <span class="level-badge badge-beginner">Stage 1</span>
+      <span class="level-title">Absolute Beginner</span>
+      <span class="level-meta">Weeks 1–3</span>
+      <span class="chevron" id="chev-s1">▶</span>
+    </div>
+    <div class="level-body" id="body-s1">
+      <div class="topics-grid">
+        <div class="topic-chip"><span class="t-num">01</span><br>What is Python & setup</div>
+        <div class="topic-chip"><span class="t-num">02</span><br>Variables & data types</div>
+        <div class="topic-chip"><span class="t-num">03</span><br>Strings & numbers</div>
+        <div class="topic-chip"><span class="t-num">04</span><br>Input & print</div>
+        <div class="topic-chip"><span class="t-num">05</span><br>If / elif / else</div>
+        <div class="topic-chip"><span class="t-num">06</span><br>Loops: for & while</div>
+        <div class="topic-chip"><span class="t-num">07</span><br>Lists & tuples</div>
+        <div class="topic-chip"><span class="t-num">08</span><br>Dictionaries & sets</div>
+        <div class="topic-chip"><span class="t-num">09</span><br>Functions & scope</div>
+        <div class="topic-chip"><span class="t-num">10</span><br>Error handling basics</div>
+      </div>
+      <div class="section-divider">Mini Projects</div>
+      <ul class="proj-list">
+        <li><span class="proj-dot" style="background:#63991A"></span>Calculator app</li>
+        <li><span class="proj-dot" style="background:#63991A"></span>Number guessing game</li>
+        <li><span class="proj-dot" style="background:#63991A"></span>Temperature converter</li>
+      </ul>
+      <div class="resources-section">
+        <div class="res-label">Best Resources</div>
+        <div class="res-grid">
+          <a class="res-card" href="https://www.python.org/about/gettingstarted/" target="_blank">
+            <div class="res-icon ri-doc">📄</div>
+            <div class="res-info"><div class="res-name">Python.org Official</div><div class="res-sub">Beginner's guide + docs</div><span class="res-tag tag-free">Free</span></div>
+          </a>
+          <a class="res-card" href="https://www.codecademy.com/learn/learn-python-3" target="_blank">
+            <div class="res-icon ri-free">🎮</div>
+            <div class="res-info"><div class="res-name">Codecademy Python 3</div><div class="res-sub">Interactive browser coding</div><span class="res-tag tag-free">Free</span></div>
+          </a>
+          <a class="res-card" href="https://www.freecodecamp.org/learn/scientific-computing-with-python/" target="_blank">
+            <div class="res-icon ri-free">🆓</div>
+            <div class="res-info"><div class="res-name">freeCodeCamp</div><div class="res-sub">300 hrs curriculum</div><span class="res-tag tag-free">Free</span></div>
+          </a>
+          <a class="res-card" href="https://greenteapress.com/thinkpython/html/index.html" target="_blank">
+            <div class="res-icon ri-doc">📘</div>
+            <div class="res-info"><div class="res-name">Think Python (ebook)</div><div class="res-sub">Open-access textbook</div><span class="res-tag tag-free">Free PDF</span></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">↓</div>
+
+  <!-- STAGE 2 -->
+  <div class="level-block">
+    <div class="level-head" onclick="toggle('s2')">
+      <span class="level-badge badge-beginner">Stage 2</span>
+      <span class="level-title">Core Fundamentals</span>
+      <span class="level-meta">Weeks 4–7</span>
+      <span class="chevron" id="chev-s2">▶</span>
+    </div>
+    <div class="level-body" id="body-s2">
+      <div class="topics-grid">
+        <div class="topic-chip"><span class="t-num">11</span><br>List comprehensions</div>
+        <div class="topic-chip"><span class="t-num">12</span><br>File I/O</div>
+        <div class="topic-chip"><span class="t-num">13</span><br>Modules & imports</div>
+        <div class="topic-chip"><span class="t-num">14</span><br>Exception handling</div>
+        <div class="topic-chip"><span class="t-num">15</span><br>Lambda functions</div>
+        <div class="topic-chip"><span class="t-num">16</span><br>Map, filter, zip</div>
+        <div class="topic-chip"><span class="t-num">17</span><br>*args & **kwargs</div>
+        <div class="topic-chip"><span class="t-num">18</span><br>Virtual environments</div>
+        <div class="topic-chip"><span class="t-num">19</span><br>pip & packages</div>
+        <div class="topic-chip"><span class="t-num">20</span><br>Regular expressions</div>
+      </div>
+      <div class="section-divider">Mini Projects</div>
+      <ul class="proj-list">
+        <li><span class="proj-dot" style="background:#3B8BD4"></span>To-do list CLI app</li>
+        <li><span class="proj-dot" style="background:#3B8BD4"></span>Word frequency counter</li>
+        <li><span class="proj-dot" style="background:#3B8BD4"></span>CSV data reader</li>
+      </ul>
+      <div class="resources-section">
+        <div class="res-label">Best Resources</div>
+        <div class="res-grid">
+          <a class="res-card" href="https://www.coursera.org/specializations/python" target="_blank">
+            <div class="res-icon ri-video">🎓</div>
+            <div class="res-info"><div class="res-name">Python for Everybody</div><div class="res-sub">Coursera — Dr. Chuck</div><span class="res-tag tag-free">Free audit</span></div>
+          </a>
+          <a class="res-card" href="https://realpython.com" target="_blank">
+            <div class="res-icon ri-free">🐍</div>
+            <div class="res-info"><div class="res-name">Real Python</div><div class="res-sub">In-depth tutorials</div><span class="res-tag tag-free">Free + Paid</span></div>
+          </a>
+          <a class="res-card" href="https://www.youtube.com/watch?v=rfscVS0vtbw" target="_blank">
+            <div class="res-icon ri-video">▶️</div>
+            <div class="res-info"><div class="res-name">freeCodeCamp YT</div><div class="res-sub">4hr full course video</div><span class="res-tag tag-free">Free</span></div>
+          </a>
+          <a class="res-card" href="https://automatetheboringstuff.com/" target="_blank">
+            <div class="res-icon ri-doc">📗</div>
+            <div class="res-info"><div class="res-name">Automate Boring Stuff</div><div class="res-sub">Free online book + PDF</div><span class="res-tag tag-free">Free PDF</span></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">↓</div>
+
+  <!-- STAGE 3 -->
+  <div class="level-block">
+    <div class="level-head" onclick="toggle('s3')">
+      <span class="level-badge badge-intermediate">Stage 3</span>
+      <span class="level-title">Object-Oriented Python</span>
+      <span class="level-meta">Weeks 8–11</span>
+      <span class="chevron" id="chev-s3">▶</span>
+    </div>
+    <div class="level-body" id="body-s3">
+      <div class="topics-grid">
+        <div class="topic-chip"><span class="t-num">21</span><br>Classes & objects</div>
+        <div class="topic-chip"><span class="t-num">22</span><br>__init__ & self</div>
+        <div class="topic-chip"><span class="t-num">23</span><br>Inheritance</div>
+        <div class="topic-chip"><span class="t-num">24</span><br>Polymorphism</div>
+        <div class="topic-chip"><span class="t-num">25</span><br>Encapsulation</div>
+        <div class="topic-chip"><span class="t-num">26</span><br>Dunder methods</div>
+        <div class="topic-chip"><span class="t-num">27</span><br>Decorators</div>
+        <div class="topic-chip"><span class="t-num">28</span><br>Properties</div>
+        <div class="topic-chip"><span class="t-num">29</span><br>Abstract classes</div>
+        <div class="topic-chip"><span class="t-num">30</span><br>Data classes</div>
+      </div>
+      <div class="section-divider">Projects</div>
+      <ul class="proj-list">
+        <li><span class="proj-dot" style="background:#534AB7"></span>Bank account system</li>
+        <li><span class="proj-dot" style="background:#534AB7"></span>Library management app</li>
+        <li><span class="proj-dot" style="background:#534AB7"></span>Simple card game (OOP)</li>
+      </ul>
+      <div class="resources-section">
+        <div class="res-label">Best Resources</div>
+        <div class="res-grid">
+          <a class="res-card" href="https://www.udemy.com/course/100-days-of-code/" target="_blank">
+            <div class="res-icon ri-paid">🔥</div>
+            <div class="res-info"><div class="res-name">100 Days of Code</div><div class="res-sub">Udemy — Dr. Angela Yu</div><span class="res-tag tag-paid">Paid</span></div>
+          </a>
+          <a class="res-card" href="https://realpython.com/python3-object-oriented-programming/" target="_blank">
+            <div class="res-icon ri-doc">📄</div>
+            <div class="res-info"><div class="res-name">Real Python OOP</div><div class="res-sub">Complete OOP guide</div><span class="res-tag tag-free">Free</span></div>
+          </a>
+          <a class="res-card" href="https://www.edx.org/learn/python" target="_blank">
+            <div class="res-icon ri-video">🎓</div>
+            <div class="res-info"><div class="res-name">edX Python Courses</div><div class="res-sub">MIT, Harvard tracks</div><span class="res-tag tag-free">Free audit</span></div>
+          </a>
+          <a class="res-card" href="https://docs.python.org/3/tutorial/" target="_blank">
+            <div class="res-icon ri-doc">📘</div>
+            <div class="res-info"><div class="res-name">Official Tutorial</div><div class="res-sub">Python docs deep dive</div><span class="res-tag tag-free">Free</span></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">↓</div>
+
+  <!-- STAGE 4 -->
+  <div class="level-block">
+    <div class="level-head" onclick="toggle('s4')">
+      <span class="level-badge badge-intermediate">Stage 4</span>
+      <span class="level-title">Intermediate Python</span>
+      <span class="level-meta">Weeks 12–16</span>
+      <span class="chevron" id="chev-s4">▶</span>
+    </div>
+    <div class="level-body" id="body-s4">
+      <div class="topics-grid">
+        <div class="topic-chip"><span class="t-num">31</span><br>Generators & iterators</div>
+        <div class="topic-chip"><span class="t-num">32</span><br>Context managers</div>
+        <div class="topic-chip"><span class="t-num">33</span><br>Threading & multiprocessing</div>
+        <div class="topic-chip"><span class="t-num">34</span><br>Async / await</div>
+        <div class="topic-chip"><span class="t-num">35</span><br>Type hints</div>
+        <div class="topic-chip"><span class="t-num">36</span><br>Unit testing (pytest)</div>
+        <div class="topic-chip"><span class="t-num">37</span><br>Debugging techniques</div>
+        <div class="topic-chip"><span class="t-num">38</span><br>Working with JSON & APIs</div>
+        <div class="topic-chip"><span class="t-num">39</span><br>Web scraping (BeautifulSoup)</div>
+        <div class="topic-chip"><span class="t-num">40</span><br>Database with SQLite</div>
+      </div>
+      <div class="section-divider">Projects</div>
+      <ul class="proj-list">
+        <li><span class="proj-dot" style="background:#1D9E75"></span>Weather app using REST API</li>
+        <li><span class="proj-dot" style="background:#1D9E75"></span>Web scraper for news headlines</li>
+        <li><span class="proj-dot" style="background:#1D9E75"></span>Expense tracker with SQLite</li>
+      </ul>
+      <div class="resources-section">
+        <div class="res-label">Best Resources</div>
+        <div class="res-grid">
+          <a class="res-card" href="https://realpython.com/learning-paths/" target="_blank">
+            <div class="res-icon ri-free">🐍</div>
+            <div class="res-info"><div class="res-name">Real Python Paths</div><div class="res-sub">Guided learning paths</div><span class="res-tag tag-free">Free + Paid</span></div>
+          </a>
+          <a class="res-card" href="https://www.coursera.org/professional-certificates/google-it-automation" target="_blank">
+            <div class="res-icon ri-video">🎓</div>
+            <div class="res-info"><div class="res-name">Google IT Automation</div><div class="res-sub">Coursera certificate</div><span class="res-tag tag-paid">Paid</span></div>
+          </a>
+          <a class="res-card" href="https://leetcode.com/problemset/all/?difficulty=EASY&page=1&topicSlugs=python" target="_blank">
+            <div class="res-icon ri-free">🧠</div>
+            <div class="res-info"><div class="res-name">LeetCode Python</div><div class="res-sub">Solve real problems</div><span class="res-tag tag-free">Free</span></div>
+          </a>
+          <a class="res-card" href="https://www.datacamp.com/courses/intro-to-python-for-data-science" target="_blank">
+            <div class="res-icon ri-video">📊</div>
+            <div class="res-info"><div class="res-name">DataCamp Intro</div><div class="res-sub">Hands-on Python</div><span class="res-tag tag-paid">Freemium</span></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">↓</div>
+
+  <!-- STAGE 5 — Specialization -->
+  <div class="level-block">
+    <div class="level-head" onclick="toggle('s5')">
+      <span class="level-badge badge-advanced">Stage 5</span>
+      <span class="level-title">Pick Your Specialization</span>
+      <span class="level-meta">Weeks 17–24</span>
+      <span class="chevron" id="chev-s5">▶</span>
+    </div>
+    <div class="level-body" id="body-s5">
+      <div class="track-row">
+        <button class="track-btn active" onclick="showTrack('web')">🌐 Web Dev</button>
+        <button class="track-btn" onclick="showTrack('data')">📊 Data Science</button>
+        <button class="track-btn" onclick="showTrack('ai')">🤖 AI / ML</button>
+        <button class="track-btn" onclick="showTrack('auto')">⚙️ Automation</button>
+      </div>
+      <div id="track-web" class="topics-grid" style="margin-top:4px;">
+        <div class="topic-chip">Flask framework</div>
+        <div class="topic-chip">Django framework</div>
+        <div class="topic-chip">REST APIs</div>
+        <div class="topic-chip">HTML templating</div>
+        <div class="topic-chip">Authentication</div>
+        <div class="topic-chip">Deployment (Heroku)</div>
+      </div>
+      <div id="track-data" class="topics-grid" style="display:none;margin-top:4px;">
+        <div class="topic-chip">NumPy</div>
+        <div class="topic-chip">Pandas</div>
+        <div class="topic-chip">Matplotlib</div>
+        <div class="topic-chip">Seaborn</div>
+        <div class="topic-chip">Jupyter notebooks</div>
+        <div class="topic-chip">Data cleaning</div>
+      </div>
+      <div id="track-ai" class="topics-grid" style="display:none;margin-top:4px;">
+        <div class="topic-chip">Scikit-learn</div>
+        <div class="topic-chip">TensorFlow / Keras</div>
+        <div class="topic-chip">PyTorch</div>
+        <div class="topic-chip">NLP basics</div>
+        <div class="topic-chip">Model evaluation</div>
+        <div class="topic-chip">Computer vision</div>
+      </div>
+      <div id="track-auto" class="topics-grid" style="display:none;margin-top:4px;">
+        <div class="topic-chip">OS & sys module</div>
+        <div class="topic-chip">Selenium</div>
+        <div class="topic-chip">Schedule tasks</div>
+        <div class="topic-chip">Email automation</div>
+        <div class="topic-chip">Excel with openpyxl</div>
+        <div class="topic-chip">PDF handling</div>
+      </div>
+      <div class="resources-section" style="margin-top:4px;">
+        <div class="res-label">Top Resources by Track</div>
+        <div class="res-grid">
+          <a class="res-card" href="https://www.udemy.com/course/the-complete-python-developer/" target="_blank">
+            <div class="res-icon ri-paid">⭐</div>
+            <div class="res-info"><div class="res-name">Zero to Mastery</div><div class="res-sub">Complete Python dev</div><span class="res-tag tag-paid">Paid</span></div>
+          </a>
+          <a class="res-card" href="https://www.kaggle.com/learn/python" target="_blank">
+            <div class="res-icon ri-free">📊</div>
+            <div class="res-info"><div class="res-name">Kaggle Learn</div><div class="res-sub">Data/ML track, free</div><span class="res-tag tag-free">Free</span></div>
+          </a>
+          <a class="res-card" href="https://flask.palletsprojects.com/en/stable/tutorial/" target="_blank">
+            <div class="res-icon ri-doc">🌐</div>
+            <div class="res-info"><div class="res-name">Flask Official Docs</div><div class="res-sub">Web dev tutorial</div><span class="res-tag tag-free">Free</span></div>
+          </a>
+          <a class="res-card" href="https://scikit-learn.org/stable/getting_started.html" target="_blank">
+            <div class="res-icon ri-doc">🤖</div>
+            <div class="res-info"><div class="res-name">Scikit-learn Docs</div><div class="res-sub">ML library guide</div><span class="res-tag tag-free">Free</span></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="connector">↓</div>
+
+  <!-- STAGE 6 — PRO -->
+  <div class="level-block">
+    <div class="level-head" onclick="toggle('s6')">
+      <span class="level-badge badge-pro">Stage 6</span>
+      <span class="level-title">Pro-Level Python</span>
+      <span class="level-meta">Weeks 25+</span>
+      <span class="chevron" id="chev-s6">▶</span>
+    </div>
+    <div class="level-body" id="body-s6">
+      <div class="topics-grid">
+        <div class="topic-chip"><span class="t-num">50+</span><br>Design patterns</div>
+        <div class="topic-chip">Clean code principles</div>
+        <div class="topic-chip">Performance optimization</div>
+        <div class="topic-chip">Memory management</div>
+        <div class="topic-chip">CI/CD pipelines</div>
+        <div class="topic-chip">Docker + Python</div>
+        <div class="topic-chip">Advanced testing (TDD)</div>
+        <div class="topic-chip">Contributing to open source</div>
+        <div class="topic-chip">Code reviews</div>
+        <div class="topic-chip">Build your own packages</div>
+      </div>
+      <div class="section-divider">Capstone Projects</div>
+      <ul class="proj-list">
+        <li><span class="proj-dot" style="background:#534AB7"></span>Full-stack web app (Django + React)</li>
+        <li><span class="proj-dot" style="background:#534AB7"></span>ML model deployed as an API</li>
+        <li><span class="proj-dot" style="background:#534AB7"></span>Contribute a PR to an open-source Python project</li>
+        <li><span class="proj-dot" style="background:#534AB7"></span>Publish your own Python package on PyPI</li>
+      </ul>
+      <div class="resources-section">
+        <div class="res-label">Best Resources</div>
+        <div class="res-grid">
+          <a class="res-card" href="https://realpython.com/python-application-layouts/" target="_blank">
+            <div class="res-icon ri-doc">🏗️</div>
+            <div class="res-info"><div class="res-name">Real Python Advanced</div><div class="res-sub">Architecture & patterns</div><span class="res-tag tag-free">Free</span></div>
+          </a>
+          <a class="res-card" href="https://github.com/vinta/awesome-python" target="_blank">
+            <div class="res-icon ri-free">⭐</div>
+            <div class="res-info"><div class="res-name">Awesome Python</div><div class="res-sub">Curated GitHub list</div><span class="res-tag tag-free">Free</span></div>
+          </a>
+          <a class="res-card" href="https://www.oreilly.com/library/view/fluent-python-2nd/9781492056348/" target="_blank">
+            <div class="res-icon ri-paid">📕</div>
+            <div class="res-info"><div class="res-name">Fluent Python</div><div class="res-sub">O'Reilly — pro book</div><span class="res-tag tag-paid">Paid</span></div>
+          </a>
+          <a class="res-card" href="https://stackoverflow.com/questions/tagged/python" target="_blank">
+            <div class="res-icon ri-free">💬</div>
+            <div class="res-info"><div class="res-name">Stack Overflow</div><div class="res-sub">Community problem-solving</div><span class="res-tag tag-free">Free</span></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ALL RESOURCES MASTER LIST -->
+  <div style="margin-top: 24px; border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-lg); overflow: hidden;">
+    <div class="level-head" onclick="toggle('allres')">
+      <span class="level-title">📚 Master Resource List — All Links</span>
+      <span class="chevron" id="chev-allres">▶</span>
+    </div>
+    <div class="level-body" id="body-allres">
+      <div class="all-res">
+        <div class="res-label" style="margin-bottom:12px;">Free Websites & Portals</div>
+        <div class="big-res-grid">
+          <a class="big-res-card" href="https://www.python.org/about/gettingstarted/" target="_blank">
+            <div class="big-res-name">python.org</div>
+            <div class="big-res-desc">Official Python docs, tutorials, PEP guides, and downloads</div>
+            <div class="big-res-foot"><span class="pill pill-free">Free</span><span class="pill pill-pdf">Docs</span></div>
+          </a>
+          <a class="big-res-card" href="https://www.codecademy.com/learn/learn-python-3" target="_blank">
+            <div class="big-res-name">Codecademy</div>
+            <div class="big-res-desc">Browser-based interactive Python 3 with exercises & quizzes</div>
+            <div class="big-res-foot"><span class="pill pill-free">Free tier</span></div>
+          </a>
+          <a class="big-res-card" href="https://www.freecodecamp.org/learn/scientific-computing-with-python/" target="_blank">
+            <div class="big-res-name">freeCodeCamp</div>
+            <div class="big-res-desc">300-hour Python curriculum with 5 certification projects</div>
+            <div class="big-res-foot"><span class="pill pill-free">100% Free</span><span class="pill pill-cert">Certificate</span></div>
+          </a>
+          <a class="big-res-card" href="https://realpython.com" target="_blank">
+            <div class="big-res-name">Real Python</div>
+            <div class="big-res-desc">In-depth articles, video tutorials, quizzes, and learning paths</div>
+            <div class="big-res-foot"><span class="pill pill-free">Free + Paid</span></div>
+          </a>
+          <a class="big-res-card" href="https://automatetheboringstuff.com/" target="_blank">
+            <div class="big-res-name">Automate the Boring Stuff</div>
+            <div class="big-res-desc">Free online book by Al Sweigart — practical Python projects</div>
+            <div class="big-res-foot"><span class="pill pill-free">Free</span><span class="pill pill-pdf">PDF Book</span></div>
+          </a>
+          <a class="big-res-card" href="https://www.kaggle.com/learn/python" target="_blank">
+            <div class="big-res-name">Kaggle Learn</div>
+            <div class="big-res-desc">Hands-on Python for data science with free notebooks</div>
+            <div class="big-res-foot"><span class="pill pill-free">Free</span><span class="pill pill-cert">Certificate</span></div>
+          </a>
+          <a class="big-res-card" href="https://greenteapress.com/thinkpython/html/index.html" target="_blank">
+            <div class="big-res-name">Think Python</div>
+            <div class="big-res-desc">Open-access ebook by Allen Downey — structured & academic</div>
+            <div class="big-res-foot"><span class="pill pill-free">Free</span><span class="pill pill-pdf">PDF</span></div>
+          </a>
+          <a class="big-res-card" href="https://leetcode.com/problemset/all/?topicSlugs=python" target="_blank">
+            <div class="big-res-name">LeetCode</div>
+            <div class="big-res-desc">Coding challenges to sharpen Python problem-solving skills</div>
+            <div class="big-res-foot"><span class="pill pill-free">Free tier</span></div>
+          </a>
+          <a class="big-res-card" href="https://github.com/vinta/awesome-python" target="_blank">
+            <div class="big-res-name">Awesome Python (GitHub)</div>
+            <div class="big-res-desc">Curated list of Python frameworks, libraries, and resources</div>
+            <div class="big-res-foot"><span class="pill pill-free">Free</span><span class="pill pill-ext">GitHub</span></div>
+          </a>
+          <a class="big-res-card" href="https://www.w3schools.com/python/" target="_blank">
+            <div class="big-res-name">W3Schools Python</div>
+            <div class="big-res-desc">Quick-reference tutorials and run-in-browser examples</div>
+            <div class="big-res-foot"><span class="pill pill-free">Free</span></div>
+          </a>
+        </div>
+        <div class="res-label" style="margin: 20px 0 12px;">Paid Courses & Platforms</div>
+        <div class="big-res-grid">
+          <a class="big-res-card" href="https://www.coursera.org/specializations/python" target="_blank">
+            <div class="big-res-name">Coursera — Python for Everybody</div>
+            <div class="big-res-desc">University of Michigan, Dr. Chuck — beginner to intermediate</div>
+            <div class="big-res-foot"><span class="pill pill-free">Free audit</span><span class="pill pill-cert">Certificate paid</span></div>
+          </a>
+          <a class="big-res-card" href="https://www.udemy.com/course/100-days-of-code/" target="_blank">
+            <div class="big-res-name">Udemy — 100 Days of Code</div>
+            <div class="big-res-desc">Dr. Angela Yu — build 100 real projects in 100 days</div>
+            <div class="big-res-foot"><span class="pill pill-paid">Paid (~₹499 sale)</span></div>
+          </a>
+          <a class="big-res-card" href="https://www.coursera.org/professional-certificates/google-it-automation" target="_blank">
+            <div class="big-res-name">Google IT Automation (Coursera)</div>
+            <div class="big-res-desc">Python automation with Google certification</div>
+            <div class="big-res-foot"><span class="pill pill-paid">Paid</span><span class="pill pill-cert">Certificate</span></div>
+          </a>
+          <a class="big-res-card" href="https://www.datacamp.com/courses/intro-to-python-for-data-science" target="_blank">
+            <div class="big-res-name">DataCamp</div>
+            <div class="big-res-desc">Python for data science with interactive coding exercises</div>
+            <div class="big-res-foot"><span class="pill pill-free">Freemium</span></div>
+          </a>
+          <a class="big-res-card" href="https://www.udemy.com/course/the-complete-python-developer/" target="_blank">
+            <div class="big-res-name">Zero to Mastery (Udemy)</div>
+            <div class="big-res-desc">Project-based Python from beginner to job-ready</div>
+            <div class="big-res-foot"><span class="pill pill-paid">Paid</span></div>
+          </a>
+          <a class="big-res-card" href="https://www.oreilly.com/library/view/fluent-python-2nd/9781492056348/" target="_blank">
+            <div class="big-res-name">Fluent Python (O'Reilly)</div>
+            <div class="big-res-desc">Advanced book for writing truly Pythonic code</div>
+            <div class="big-res-foot"><span class="pill pill-paid">Paid</span><span class="pill pill-pdf">Book</span></div>
+          </a>
+        </div>
+        <div class="res-label" style="margin: 20px 0 12px;">YouTube Channels</div>
+        <div class="big-res-grid">
+          <a class="big-res-card" href="https://www.youtube.com/@coreyms" target="_blank">
+            <div class="big-res-name">Corey Schafer</div>
+            <div class="big-res-desc">Detailed Python tutorials — OOP, Django, Flask, and more</div>
+            <div class="big-res-foot"><span class="pill pill-free">Free</span></div>
+          </a>
+          <a class="big-res-card" href="https://www.youtube.com/@TechWithTim" target="_blank">
+            <div class="big-res-name">Tech With Tim</div>
+            <div class="big-res-desc">Project-based Python tutorials — games, ML, web scraping</div>
+            <div class="big-res-foot"><span class="pill pill-free">Free</span></div>
+          </a>
+          <a class="big-res-card" href="https://www.youtube.com/@mCodingWithJamesMurphy" target="_blank">
+            <div class="big-res-name">mCoding</div>
+            <div class="big-res-desc">Advanced Python concepts explained simply</div>
+            <div class="big-res-foot"><span class="pill pill-free">Free</span></div>
+          </a>
+          <a class="big-res-card" href="https://www.youtube.com/watch?v=_uQrJ0TkZlc" target="_blank">
+            <div class="big-res-name">Programming with Mosh</div>
+            <div class="big-res-desc">6-hour Python beginner full course on YouTube</div>
+            <div class="big-res-foot"><span class="pill pill-free">Free</span></div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+function toggle(id) {
+  const body = document.getElementById('body-' + id);
+  const chev = document.getElementById('chev-' + id);
+  const isOpen = body.classList.contains('open');
+  body.classList.toggle('open', !isOpen);
+  if (chev) chev.classList.toggle('open', !isOpen);
+}
+
+function showTrack(t) {
+  ['web','data','ai','auto'].forEach(id => {
+    document.getElementById('track-' + id).style.display = id === t ? 'grid' : 'none';
+  });
+  document.querySelectorAll('.track-btn').forEach(btn => {
+    btn.classList.toggle('active', btn.textContent.toLowerCase().includes(t) || btn.getAttribute('onclick').includes("'" + t + "'"));
+  });
+}
+
+// Open stage 1 by default
+toggle('s1');
+</script>
