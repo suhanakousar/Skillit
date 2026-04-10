@@ -11,6 +11,7 @@ from sqlalchemy import select
 from app.config import settings
 from app.content.lessons_data import LESSONS_BY_TRACK
 from app.content.problems_data import PROBLEMS
+from app.content.problems_extended_data import PROBLEMS_EXTENDED
 from app.content.python_roadmap_data import (
     PYTHON_ROADMAP_LESSONS,
     PYTHON_ROADMAP_PROBLEMS,
@@ -207,7 +208,11 @@ async def seed():
                 lesson_count += 1
 
         dsa_track = tracks_by_slug["dsa-foundations"]
-        all_problems = list(PROBLEMS) + list(PYTHON_ROADMAP_PROBLEMS)
+        all_problems = (
+            list(PROBLEMS)
+            + list(PROBLEMS_EXTENDED)
+            + list(PYTHON_ROADMAP_PROBLEMS)
+        )
         for p in all_problems:
             target_track = tracks_by_slug.get(p.get("track_slug", ""), dsa_track)
             db.add(
@@ -356,7 +361,9 @@ async def seed():
                 db.add(UserBadge(user_id=demo_user.id, badge_id=badge.id))
 
         await db.commit()
-        total_problems = len(PROBLEMS) + len(PYTHON_ROADMAP_PROBLEMS)
+        total_problems = (
+            len(PROBLEMS) + len(PROBLEMS_EXTENDED) + len(PYTHON_ROADMAP_PROBLEMS)
+        )
         total_projects = len(PROJECTS_DATA) + len(PYTHON_ROADMAP_PROJECTS)
         summary = (
             f"Seeded TechPath: {len(TRACKS)} tracks, {lesson_count} lessons, "
