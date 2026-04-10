@@ -1,0 +1,97 @@
+version: "3.9"
+
+# Default compose brings up: postgres + redis + backend + frontend.
+# Judge0 is opt-in via profile — the backend has a local Python runner fallback
+# so you don't need it for day-to-day use.
+#
+# Usage:
+#   docker compose -f infra/docker-compose.yml up -d             (core stack)
+#   docker compose -f infra/docker-compose.yml --profile judge0 up -d   (+ Judge0)
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER:-techpath}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-techpath}
+      POSTGRES_DB: ${POSTGRES_DB:-techpath}
+    volumes:
+      - pg_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-techpath}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+  backend:
+    build:
+      context: ../backend
+      dockerfile: Dockerfile
+    environment:
+      DATABASE_URL: postgresql+asyncpg://${POSTGRES_USER:-techpath}:${POSTGRES_PASSWORD:-techpath}@postgres:5432/${POSTGRES_DB:-techpath}
+      REDIS_URL: redis://redis:6379/0
+      JWT_SECRET: ${JWT_SECRET:-dev-secret-change-me}
+      JUDGE0_URL: ${JUDGE0_URL:-http://judge0:2358}
+      USE_LOCAL_RUNNER_FALLBACK: "true"
+      ANTHROPIC_API_KEY: ${ANTHROPIC_API_KEY:-}
+      ENVIRONMENT: ${ENVIRONMENT:-development}
+      AUTO_BOOTSTRAP: "true"
+      SEED_DEMO_USER: "true"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    ports:
+      - "8000:8000"
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/health').read()"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+      start_period: 30s
+
+  frontend:
+    build:
+      context: ../frontend
+      dockerfile: Dockerfile
+    depends_on:
+      backend:
+        condition: service_started
+    ports:
+      - "3000:3000"
+    environment:
+      VITE_API_URL: http://localhost:8000
+
+  judge0:
+    image: judge0/judge0:1.13.1
+    profiles: ["judge0"]
+    privileged: true
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      POSTGRES_HOST: postgres
+      POSTGRES_DB: judge0
+      POSTGRES_USER: judge0
+      POSTGRES_PASSWORD: judge0
+    depends_on:
+      - redis
+      - postgres
+    ports:
+      - "2358:2358"
+
+volumes:
+  pg_data:

@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(chmod +x \"c:/Windows/System32/Skillit/techpath/scripts/dev.sh\" \"c:/Windows/System32/Skillit/techpath/scripts/test.sh\")"
+    ]
+  }
+}

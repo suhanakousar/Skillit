@@ -1,0 +1,114 @@
+{
+  "domain": "DSA",
+  "topics": [
+    {
+      "topic_id": "arrays",
+      "name": "Arrays",
+      "prerequisite_topics": [],
+      "story_hook": "Imagine a row of numbered lockers — each holds one item. You can reach any by its number in one step.",
+      "key_concepts": ["indexing", "in-place updates", "prefix sums", "rotation"],
+      "problems": [
+        {"title": "Two Sum", "difficulty": 1, "pattern": "hashing"},
+        {"title": "Contains Duplicate", "difficulty": 1, "pattern": "hashing"},
+        {"title": "Best Time to Buy and Sell Stock", "difficulty": 2, "pattern": "one pass"},
+        {"title": "Product of Array Except Self", "difficulty": 3, "pattern": "prefix/suffix"},
+        {"title": "Rotate Array", "difficulty": 2, "pattern": "reversal trick"},
+        {"title": "Maximum Subarray (Kadane's)", "difficulty": 3, "pattern": "dp on array"},
+        {"title": "Merge Intervals", "difficulty": 3, "pattern": "sorting"},
+        {"title": "Subarray Sum Equals K", "difficulty": 3, "pattern": "prefix sum + hash"},
+        {"title": "First Missing Positive", "difficulty": 5, "pattern": "in-place hashing"},
+        {"title": "Trapping Rain Water", "difficulty": 5, "pattern": "two pointers"}
+      ],
+      "project_idea": "A grade analyzer that computes averages, medians, and top-k students from an input array.",
+      "estimated_hours": 12
+    },
+    {
+      "topic_id": "strings",
+      "name": "Strings",
+      "prerequisite_topics": ["arrays"],
+      "story_hook": "A string is just an array of characters — but the tricks are about finding patterns inside a sea of letters.",
+      "key_concepts": ["substrings", "palindromes", "anagrams", "pattern matching"],
+      "problems": [
+        {"title": "Valid Anagram", "difficulty": 1, "pattern": "counting"},
+        {"title": "Valid Palindrome", "difficulty": 1, "pattern": "two pointers"},
+        {"title": "Longest Common Prefix", "difficulty": 1, "pattern": "vertical scan"},
+        {"title": "Group Anagrams", "difficulty": 2, "pattern": "hashing by signature"},
+        {"title": "Longest Substring Without Repeating Characters", "difficulty": 3, "pattern": "sliding window"},
+        {"title": "Longest Palindromic Substring", "difficulty": 3, "pattern": "expand around center"},
+        {"title": "Minimum Window Substring", "difficulty": 5, "pattern": "sliding window"},
+        {"title": "Edit Distance", "difficulty": 5, "pattern": "dp on strings"}
+      ],
+      "project_idea": "A plagiarism checker that compares two documents for near-duplicate sentences.",
+      "estimated_hours": 10
+    },
+    {
+      "topic_id": "binary_search",
+      "name": "Binary Search",
+      "prerequisite_topics": ["arrays"],
+      "story_hook": "Finding a name in a physical dictionary — you don't start at 'A', you jump to the middle and cut the problem in half every step.",
+      "key_concepts": ["exact match", "lower bound", "search on answer"],
+      "problems": [
+        {"title": "Binary Search", "difficulty": 1, "pattern": "classic"},
+        {"title": "Search Insert Position", "difficulty": 1, "pattern": "lower bound"},
+        {"title": "First Bad Version", "difficulty": 2, "pattern": "boundary"},
+        {"title": "Search in Rotated Sorted Array", "difficulty": 3, "pattern": "pivot handling"},
+        {"title": "Koko Eating Bananas", "difficulty": 3, "pattern": "search on answer"},
+        {"title": "Median of Two Sorted Arrays", "difficulty": 5, "pattern": "partition"}
+      ],
+      "project_idea": "A library catalog search that returns results in O(log n).",
+      "estimated_hours": 8
+    },
+    {
+      "topic_id": "trees",
+      "name": "Trees",
+      "prerequisite_topics": ["recursion"],
+      "story_hook": "A family tree — each person has children, and you can walk from any ancestor down to any descendant.",
+      "key_concepts": ["traversals", "BFS vs DFS", "BST", "balanced trees"],
+      "problems": [
+        {"title": "Invert Binary Tree", "difficulty": 1, "pattern": "recursion"},
+        {"title": "Maximum Depth", "difficulty": 1, "pattern": "dfs"},
+        {"title": "Level Order Traversal", "difficulty": 2, "pattern": "bfs"},
+        {"title": "Validate BST", "difficulty": 3, "pattern": "dfs with bounds"},
+        {"title": "Lowest Common Ancestor", "difficulty": 3, "pattern": "recursion"},
+        {"title": "Serialize and Deserialize BT", "difficulty": 5, "pattern": "bfs+encoding"}
+      ],
+      "project_idea": "A file-system explorer: build a tree from a directory, support depth/breadth listing.",
+      "estimated_hours": 14
+    },
+    {
+      "topic_id": "graphs",
+      "name": "Graphs",
+      "prerequisite_topics": ["trees"],
+      "story_hook": "A metro map — stations (nodes) and lines (edges). The cheapest route from A to B is a graph problem.",
+      "key_concepts": ["adjacency list", "bfs", "dfs", "Dijkstra", "topological sort"],
+      "problems": [
+        {"title": "Number of Islands", "difficulty": 3, "pattern": "flood fill"},
+        {"title": "Clone Graph", "difficulty": 3, "pattern": "dfs + map"},
+        {"title": "Course Schedule", "difficulty": 3, "pattern": "topo sort"},
+        {"title": "Word Ladder", "difficulty": 4, "pattern": "bfs shortest path"},
+        {"title": "Network Delay Time", "difficulty": 4, "pattern": "Dijkstra"},
+        {"title": "Alien Dictionary", "difficulty": 5, "pattern": "topo sort"}
+      ],
+      "project_idea": "A friend recommender: build a social graph, suggest 'friends of friends' via BFS.",
+      "estimated_hours": 18
+    },
+    {
+      "topic_id": "dp",
+      "name": "Dynamic Programming",
+      "prerequisite_topics": ["recursion"],
+      "story_hook": "You're climbing stairs and want to count every way to reach the top — instead of trying every path, you remember answers to smaller staircases.",
+      "key_concepts": ["memoization", "tabulation", "1D vs 2D", "state definition"],
+      "problems": [
+        {"title": "Climbing Stairs", "difficulty": 1, "pattern": "1d dp"},
+        {"title": "House Robber", "difficulty": 2, "pattern": "1d dp"},
+        {"title": "Coin Change", "difficulty": 3, "pattern": "unbounded knapsack"},
+        {"title": "Longest Common Subsequence", "difficulty": 3, "pattern": "2d dp"},
+        {"title": "Longest Increasing Subsequence", "difficulty": 3, "pattern": "dp + binary search"},
+        {"title": "Edit Distance", "difficulty": 5, "pattern": "2d dp"},
+        {"title": "Best Time to Buy and Sell Stock IV", "difficulty": 5, "pattern": "state machine dp"}
+      ],
+      "project_idea": "A minimum-cost path finder for a maze game with obstacles.",
+      "estimated_hours": 24
+    }
+  ]
+}

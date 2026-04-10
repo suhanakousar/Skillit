@@ -1,0 +1,76 @@
+{
+  "domain": "System Design",
+  "year_recommended": [3, 4],
+  "topics": [
+    {
+      "topic_id": "scalability_basics",
+      "name": "Scalability Basics",
+      "prerequisite_topics": [],
+      "story_hook": "Your side project has 10 users and runs on one laptop. What changes when it has 10 million? System design answers that.",
+      "key_concepts": ["vertical vs horizontal scaling", "load balancers", "stateless services", "CDN", "caching layers"],
+      "discussion_prompts": [
+        "How would you scale a URL shortener to 1B requests/day?",
+        "What breaks first when you 10x traffic on a monolith?",
+        "When should you add a CDN?"
+      ],
+      "estimated_hours": 10
+    },
+    {
+      "topic_id": "databases_at_scale",
+      "name": "Databases at Scale",
+      "prerequisite_topics": ["scalability_basics"],
+      "story_hook": "One database server is simple. A hundred is a distributed systems problem.",
+      "key_concepts": ["replication", "sharding", "read replicas", "ACID vs BASE", "CAP theorem", "eventual consistency"],
+      "discussion_prompts": [
+        "How do you handle writes when your primary goes down?",
+        "When is eventual consistency acceptable? When isn't it?",
+        "Design a sharding key for a Twitter-like feed."
+      ],
+      "estimated_hours": 12
+    },
+    {
+      "topic_id": "caching",
+      "name": "Caching Strategies",
+      "prerequisite_topics": ["databases_at_scale"],
+      "story_hook": "The fastest query is the one you don't run. Caching is about remembering answers you've already computed.",
+      "key_concepts": ["cache-aside", "write-through", "write-behind", "TTL", "LRU eviction", "Redis vs Memcached", "cache stampede"],
+      "discussion_prompts": [
+        "When would you use write-through vs cache-aside?",
+        "How do you prevent cache stampede when a hot key expires?",
+        "Design a cache hierarchy for a news homepage."
+      ],
+      "estimated_hours": 8
+    },
+    {
+      "topic_id": "message_queues",
+      "name": "Message Queues & Async Processing",
+      "prerequisite_topics": ["scalability_basics"],
+      "story_hook": "A restaurant doesn't make every customer wait for their dish to be plated. Orders go to the kitchen queue. Queues decouple fast front-of-house from slow back-of-house.",
+      "key_concepts": ["producers vs consumers", "at-most-once vs at-least-once", "dead-letter queues", "Kafka vs SQS vs RabbitMQ", "idempotency"],
+      "discussion_prompts": [
+        "Why are queues idempotent consumers important?",
+        "When would you choose Kafka over SQS?",
+        "Design the order flow for a food-delivery app."
+      ],
+      "estimated_hours": 10
+    },
+    {
+      "topic_id": "design_interviews",
+      "name": "Classic System Design Interviews",
+      "prerequisite_topics": ["caching", "message_queues"],
+      "story_hook": "Every FAANG interview asks 'design X'. The answer isn't memorized — it's a structured walk through requirements, scale estimates, components, tradeoffs.",
+      "key_concepts": ["requirements clarification", "back-of-envelope math", "component diagram", "data model", "API design", "bottleneck analysis"],
+      "discussion_prompts": [
+        "Design Instagram (feed, stories, DMs)",
+        "Design a chat system like WhatsApp",
+        "Design a rate limiter",
+        "Design a URL shortener at 1B/day",
+        "Design YouTube's video upload + playback",
+        "Design a distributed log (Kafka)",
+        "Design Google Docs collaborative editing",
+        "Design Uber's matching + dispatch"
+      ],
+      "estimated_hours": 30
+    }
+  ]
+}

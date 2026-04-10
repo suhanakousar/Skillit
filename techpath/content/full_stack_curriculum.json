@@ -1,0 +1,168 @@
+{
+  "domain": "Full Stack Web Development",
+  "year_recommended": [2, 3],
+  "topics": [
+    {
+      "topic_id": "html_css",
+      "name": "HTML5 & CSS3",
+      "prerequisite_topics": [],
+      "story_hook": "If a webpage were a house, HTML is the walls and doors, CSS is the paint and furniture.",
+      "key_concepts": ["semantic tags", "box model", "flexbox", "grid", "responsive design", "media queries"],
+      "exercises": [
+        {"title": "Build a portfolio landing page", "difficulty": 1},
+        {"title": "Recreate the Dribbble homepage layout", "difficulty": 2},
+        {"title": "Pixel-perfect from a Figma file", "difficulty": 3},
+        {"title": "Responsive nav with hamburger menu", "difficulty": 2},
+        {"title": "Image gallery with CSS grid", "difficulty": 2},
+        {"title": "Hover animations and transitions", "difficulty": 1},
+        {"title": "Dark mode toggle with CSS variables", "difficulty": 2},
+        {"title": "Sticky footer + header layout", "difficulty": 1},
+        {"title": "Card component with shadow and hover lift", "difficulty": 1},
+        {"title": "Mobile-first blog page", "difficulty": 2}
+      ],
+      "mini_project": "A personal portfolio site with sections: hero, projects, about, contact.",
+      "estimated_hours": 15
+    },
+    {
+      "topic_id": "javascript_es6",
+      "name": "JavaScript (ES6+)",
+      "prerequisite_topics": ["html_css"],
+      "story_hook": "HTML gives the skeleton. CSS gives the skin. JavaScript gives the soul — the ability to react to clicks, fetch data, and change the page.",
+      "key_concepts": ["let/const", "arrow functions", "destructuring", "spread/rest", "promises", "async/await", "modules", "closures"],
+      "exercises": [
+        {"title": "Counter with plus/minus buttons", "difficulty": 1},
+        {"title": "Todo list with localStorage persistence", "difficulty": 2},
+        {"title": "Form validation (email, password strength)", "difficulty": 2},
+        {"title": "Debounced search input", "difficulty": 3},
+        {"title": "Fetch data from a public API and render", "difficulty": 2},
+        {"title": "Promise.all with error handling", "difficulty": 3},
+        {"title": "Build your own Array.prototype.map", "difficulty": 3},
+        {"title": "Drag and drop reordering", "difficulty": 4},
+        {"title": "Infinite scroll with IntersectionObserver", "difficulty": 4},
+        {"title": "Countdown timer component", "difficulty": 2}
+      ],
+      "mini_project": "A quiz app that fetches questions from the Open Trivia API and scores answers.",
+      "estimated_hours": 20
+    },
+    {
+      "topic_id": "react",
+      "name": "React",
+      "prerequisite_topics": ["javascript_es6"],
+      "story_hook": "React treats your UI like a set of LEGO blocks. Snap them together, pass data down, let React figure out what to re-render.",
+      "key_concepts": ["components", "jsx", "props", "useState", "useEffect", "useContext", "router", "forms", "lifting state up"],
+      "exercises": [
+        {"title": "Counter with useState", "difficulty": 1},
+        {"title": "Fetch posts in useEffect with loading state", "difficulty": 2},
+        {"title": "Controlled form with validation", "difficulty": 2},
+        {"title": "Theme context (dark/light)", "difficulty": 3},
+        {"title": "Pagination with page query params", "difficulty": 3},
+        {"title": "Infinite list with useRef + IntersectionObserver", "difficulty": 4},
+        {"title": "Custom hook: useFetch", "difficulty": 3},
+        {"title": "Modal with focus trap", "difficulty": 3},
+        {"title": "Drag-and-drop Kanban board", "difficulty": 4},
+        {"title": "Multi-step wizard form", "difficulty": 3}
+      ],
+      "mini_project": "A Pomodoro timer with settings, session history, and sound alerts.",
+      "estimated_hours": 25
+    },
+    {
+      "topic_id": "node_express",
+      "name": "Node.js + Express",
+      "prerequisite_topics": ["javascript_es6"],
+      "story_hook": "JavaScript can live on the server too. Express is the most popular Node framework — the minimal, unopinionated way to build a REST API.",
+      "key_concepts": ["routing", "middleware", "request/response", "body parsing", "error handling", "CORS", "JWT auth"],
+      "exercises": [
+        {"title": "Hello world server", "difficulty": 1},
+        {"title": "CRUD routes for a todos resource", "difficulty": 2},
+        {"title": "Middleware for request logging", "difficulty": 2},
+        {"title": "Error-handling middleware", "difficulty": 3},
+        {"title": "JWT-based auth (signup/login/me)", "difficulty": 4},
+        {"title": "Rate limiting by IP", "difficulty": 3},
+        {"title": "File upload with multer", "difficulty": 3},
+        {"title": "Request validation with zod", "difficulty": 3},
+        {"title": "Pagination with cursor", "difficulty": 4},
+        {"title": "WebSocket echo server", "difficulty": 4}
+      ],
+      "mini_project": "A URL shortener with click analytics and a simple dashboard.",
+      "estimated_hours": 20
+    },
+    {
+      "topic_id": "databases",
+      "name": "MongoDB + PostgreSQL",
+      "prerequisite_topics": ["node_express"],
+      "story_hook": "Storing data in memory is fine until your server restarts. Databases are how your app remembers things forever.",
+      "key_concepts": ["SQL joins", "indexes", "transactions", "Mongoose schemas", "aggregation pipeline", "migrations"],
+      "exercises": [
+        {"title": "Model a students + grades schema", "difficulty": 2},
+        {"title": "Write SELECT with WHERE, ORDER, LIMIT", "difficulty": 1},
+        {"title": "INNER vs LEFT JOIN", "difficulty": 2},
+        {"title": "Add indexes and compare EXPLAIN", "difficulty": 3},
+        {"title": "Aggregation: average marks per branch", "difficulty": 3},
+        {"title": "Mongoose one-to-many with populate", "difficulty": 3},
+        {"title": "Transaction: transfer between two accounts", "difficulty": 4},
+        {"title": "Text search with full-text index", "difficulty": 3},
+        {"title": "Migrations with knex or Alembic", "difficulty": 3},
+        {"title": "Connection pooling under load", "difficulty": 4}
+      ],
+      "mini_project": "A blog backend with users, posts, comments, and likes — Postgres + Express.",
+      "estimated_hours": 22
+    },
+    {
+      "topic_id": "auth",
+      "name": "Authentication (JWT + OAuth)",
+      "prerequisite_topics": ["node_express", "databases"],
+      "story_hook": "A hotel doesn't give you the master key. It gives you a plastic card that proves you're allowed on floor 3, room 12, and only until checkout. That's what a JWT is.",
+      "key_concepts": ["hashing vs encryption", "bcrypt", "JWT structure", "refresh tokens", "OAuth flow", "httpOnly cookies"],
+      "exercises": [
+        {"title": "Hash a password with bcrypt", "difficulty": 1},
+        {"title": "Sign and verify a JWT", "difficulty": 2},
+        {"title": "Middleware: require auth on protected routes", "difficulty": 3},
+        {"title": "Refresh token flow", "difficulty": 4},
+        {"title": "Google OAuth login", "difficulty": 4},
+        {"title": "Role-based access control", "difficulty": 3},
+        {"title": "httpOnly cookie auth", "difficulty": 3},
+        {"title": "Rate-limit the login route", "difficulty": 2}
+      ],
+      "mini_project": "A forum with login, signup, password reset, and role-based moderation.",
+      "estimated_hours": 15
+    },
+    {
+      "topic_id": "deployment",
+      "name": "Deployment (Vercel, Railway, Docker)",
+      "prerequisite_topics": ["react", "node_express"],
+      "story_hook": "Your code only matters when it's running somewhere real. Deployment is turning 'it works on my machine' into 'it works for everyone'.",
+      "key_concepts": ["env vars", "CI/CD", "Dockerfile", "docker-compose", "Vercel", "Railway", "domain + SSL"],
+      "exercises": [
+        {"title": "Deploy a React app to Vercel", "difficulty": 1},
+        {"title": "Deploy an Express API to Railway", "difficulty": 2},
+        {"title": "Write a Dockerfile for a Node service", "difficulty": 3},
+        {"title": "docker-compose for api + db + redis", "difficulty": 4},
+        {"title": "GitHub Actions CI pipeline", "difficulty": 3},
+        {"title": "Custom domain with SSL", "difficulty": 2},
+        {"title": "Environment-specific configs", "difficulty": 2},
+        {"title": "Zero-downtime deploy with health checks", "difficulty": 4}
+      ],
+      "mini_project": "Deploy a full e-commerce app (frontend + backend + db + redis) end-to-end.",
+      "estimated_hours": 18
+    },
+    {
+      "topic_id": "web_security",
+      "name": "Web Security Basics",
+      "prerequisite_topics": ["node_express", "auth"],
+      "story_hook": "The internet is a bad neighborhood. A chained lock isn't paranoia — it's table stakes.",
+      "key_concepts": ["OWASP Top 10", "SQL injection", "XSS", "CSRF", "CORS", "rate limiting", "password policies"],
+      "exercises": [
+        {"title": "Spot the SQL injection in this query", "difficulty": 2},
+        {"title": "Sanitize user input to prevent XSS", "difficulty": 2},
+        {"title": "Configure CORS for cross-origin API", "difficulty": 2},
+        {"title": "Add a CSRF token to a form", "difficulty": 3},
+        {"title": "Implement rate limiting middleware", "difficulty": 3},
+        {"title": "Content Security Policy headers", "difficulty": 3},
+        {"title": "Secure cookies: httpOnly, Secure, SameSite", "difficulty": 2},
+        {"title": "Audit a package.json for vulnerabilities", "difficulty": 2}
+      ],
+      "mini_project": "Harden a deliberately-vulnerable sample app (DVWA-lite) and document every fix.",
+      "estimated_hours": 12
+    }
+  ]
+}

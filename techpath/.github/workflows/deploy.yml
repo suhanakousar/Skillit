@@ -1,0 +1,76 @@
+name: Build & Deploy
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  backend-test:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:15
+        env:
+          POSTGRES_USER: techpath
+          POSTGRES_PASSWORD: techpath
+          POSTGRES_DB: techpath
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U techpath"
+          --health-interval 5s
+          --health-retries 5
+      redis:
+        image: redis:7
+        ports:
+          - 6379:6379
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install deps
+        working-directory: techpath/backend
+        run: |
+          pip install -r requirements.txt
+      - name: Lint
+        working-directory: techpath/backend
+        run: python -c "import app.main; print('backend imports ok')"
+        env:
+          DATABASE_URL: postgresql+asyncpg://techpath:techpath@localhost:5432/techpath
+          REDIS_URL: redis://localhost:6379/0
+          JWT_SECRET: test
+
+  frontend-build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+      - name: Install deps
+        working-directory: techpath/frontend
+        run: npm install
+      - name: Type-check + build
+        working-directory: techpath/frontend
+        run: npm run build
+
+  deploy-backend:
+    runs-on: ubuntu-latest
+    needs: [backend-test, frontend-build]
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Railway
+        run: echo "Hook up Railway CLI or webhook here"
+
+  deploy-frontend:
+    runs-on: ubuntu-latest
+    needs: [backend-test, frontend-build]
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy to Vercel
+        run: echo "Hook up Vercel CLI or webhook here"

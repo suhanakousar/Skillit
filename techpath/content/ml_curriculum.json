@@ -1,0 +1,93 @@
+{
+  "domain": "Machine Learning",
+  "year_recommended": [3, 4],
+  "topics": [
+    {
+      "topic_id": "ml_foundations",
+      "name": "ML Foundations",
+      "prerequisite_topics": [],
+      "story_hook": "A child learns 'cat' from seeing dozens of cats. Machine learning is that, but formalized: show the machine examples, let it find the pattern.",
+      "key_concepts": ["supervised vs unsupervised", "features vs labels", "train/test split", "bias-variance", "overfitting"],
+      "exercises": [
+        {"title": "Load iris dataset, split train/test", "difficulty": 1},
+        {"title": "Plot feature distributions", "difficulty": 1},
+        {"title": "Compute accuracy, precision, recall by hand", "difficulty": 2},
+        {"title": "Confusion matrix visualization", "difficulty": 2},
+        {"title": "k-fold cross-validation from scratch", "difficulty": 3}
+      ],
+      "mini_project": "Classify iris flowers using only numpy — no sklearn.",
+      "estimated_hours": 12
+    },
+    {
+      "topic_id": "linear_regression",
+      "name": "Linear Regression",
+      "prerequisite_topics": ["ml_foundations"],
+      "story_hook": "If ice cream sales go up when the weather's hot, you could draw a line that predicts sales from temperature. Linear regression is the math that draws the best line.",
+      "key_concepts": ["least squares", "gradient descent", "normal equation", "regularization (L1, L2)"],
+      "exercises": [
+        {"title": "1-feature regression by hand", "difficulty": 2},
+        {"title": "Implement gradient descent in numpy", "difficulty": 3},
+        {"title": "Compare to sklearn LinearRegression", "difficulty": 2},
+        {"title": "Add L2 regularization (ridge)", "difficulty": 3},
+        {"title": "Feature scaling before training", "difficulty": 2},
+        {"title": "Polynomial features for curved data", "difficulty": 3},
+        {"title": "Plot learning curves", "difficulty": 3}
+      ],
+      "mini_project": "Predict Bangalore house prices from area + bedrooms + location.",
+      "estimated_hours": 16
+    },
+    {
+      "topic_id": "classification",
+      "name": "Classification (Logistic Regression, SVM, Trees)",
+      "prerequisite_topics": ["linear_regression"],
+      "story_hook": "Regression predicts a number. Classification predicts a label. 'Spam or not?' is the classic example.",
+      "key_concepts": ["sigmoid", "cross-entropy", "decision boundary", "SVM margin", "decision tree splits", "random forests"],
+      "exercises": [
+        {"title": "Logistic regression on spam dataset", "difficulty": 2},
+        {"title": "Decision tree with Gini impurity", "difficulty": 3},
+        {"title": "Random forest with bagging", "difficulty": 3},
+        {"title": "Compare SVM kernels: linear, RBF, poly", "difficulty": 4},
+        {"title": "ROC curve and AUC", "difficulty": 3},
+        {"title": "Handle class imbalance with SMOTE", "difficulty": 4},
+        {"title": "Feature importance from trees", "difficulty": 2}
+      ],
+      "mini_project": "Credit card fraud detector with class imbalance handling.",
+      "estimated_hours": 20
+    },
+    {
+      "topic_id": "neural_networks",
+      "name": "Neural Networks",
+      "prerequisite_topics": ["classification"],
+      "story_hook": "A neural network is a logistic regression stacked on another logistic regression stacked on another — infinitely composable. That's what makes it so powerful.",
+      "key_concepts": ["perceptron", "activation functions", "backpropagation", "gradient descent variants", "PyTorch basics"],
+      "exercises": [
+        {"title": "Perceptron for XOR in numpy", "difficulty": 3},
+        {"title": "Backprop by hand on a 2-layer net", "difficulty": 4},
+        {"title": "MLP with PyTorch on MNIST", "difficulty": 3},
+        {"title": "Compare ReLU, sigmoid, tanh", "difficulty": 3},
+        {"title": "Dropout and batch norm", "difficulty": 4},
+        {"title": "Adam optimizer vs SGD", "difficulty": 3},
+        {"title": "Save and load a trained model", "difficulty": 2}
+      ],
+      "mini_project": "Handwritten digit recognizer with a live drawing UI.",
+      "estimated_hours": 25
+    },
+    {
+      "topic_id": "deep_learning",
+      "name": "CNNs & Transformers",
+      "prerequisite_topics": ["neural_networks"],
+      "story_hook": "CNNs learn to see. Transformers learn to read. Together they power everything from self-driving cars to ChatGPT.",
+      "key_concepts": ["convolution", "pooling", "ResNet", "attention", "self-attention", "transformer architecture", "fine-tuning"],
+      "exercises": [
+        {"title": "CNN on CIFAR-10", "difficulty": 4},
+        {"title": "Fine-tune a pretrained ResNet", "difficulty": 4},
+        {"title": "Implement scaled dot-product attention", "difficulty": 5},
+        {"title": "Tiny transformer for text classification", "difficulty": 5},
+        {"title": "Transfer learning with HuggingFace", "difficulty": 3},
+        {"title": "LoRA fine-tuning on a small dataset", "difficulty": 5}
+      ],
+      "mini_project": "An image captioning model using a CNN encoder + transformer decoder.",
+      "estimated_hours": 40
+    }
+  ]
+}
