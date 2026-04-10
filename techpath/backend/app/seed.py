@@ -11,6 +11,12 @@ from sqlalchemy import select
 from app.config import settings
 from app.content.lessons_data import LESSONS_BY_TRACK
 from app.content.problems_data import PROBLEMS
+from app.content.python_roadmap_data import (
+    PYTHON_ROADMAP_LESSONS,
+    PYTHON_ROADMAP_PROBLEMS,
+    PYTHON_ROADMAP_PROJECTS,
+    PYTHON_ROADMAP_TRACKS,
+)
 from app.database import AsyncSessionLocal, Base, engine
 from app.models.badge import Badge, UserBadge
 from app.models.career import JobProfile
@@ -51,6 +57,8 @@ TRACKS = [
     ("Deep Learning", "deep-learning", "ML", 4, "Neural nets, CNNs, RNNs, transformers.", 80, 1500),
     ("System Design Advanced", "system-design-advanced", "Systems", 4, "Distributed systems, consensus, CAP, real-world architectures.", 70, 1400),
     ("Interview Prep", "interview-prep", "Career", 4, "Mock interviews, behavioral rounds, salary negotiation.", 40, 800),
+    # Python: Beginner-to-Pro roadmap (6 stages, 4 Stage-5 specializations)
+    *PYTHON_ROADMAP_TRACKS,
 ]
 
 # -----------------------------------------------------------------------------
@@ -174,7 +182,13 @@ async def seed():
         await db.flush()
 
         lesson_count = 0
+        all_lessons_by_track: dict[str, list[dict]] = {}
         for track_slug, lessons in LESSONS_BY_TRACK.items():
+            all_lessons_by_track.setdefault(track_slug, []).extend(lessons)
+        for track_slug, lessons in PYTHON_ROADMAP_LESSONS.items():
+            all_lessons_by_track.setdefault(track_slug, []).extend(lessons)
+
+        for track_slug, lessons in all_lessons_by_track.items():
             track = tracks_by_slug.get(track_slug)
             if not track:
                 continue
@@ -193,10 +207,12 @@ async def seed():
                 lesson_count += 1
 
         dsa_track = tracks_by_slug["dsa-foundations"]
-        for p in PROBLEMS:
+        all_problems = list(PROBLEMS) + list(PYTHON_ROADMAP_PROBLEMS)
+        for p in all_problems:
+            target_track = tracks_by_slug.get(p.get("track_slug", ""), dsa_track)
             db.add(
                 Problem(
-                    track_id=dsa_track.id,
+                    track_id=target_track.id,
                     title=p["title"],
                     slug=p["slug"],
                     description=p["description"],
@@ -211,7 +227,7 @@ async def seed():
                 )
             )
 
-        for year, title, slug, desc, stack, xp in PROJECTS_DATA:
+        for year, title, slug, desc, stack, xp in list(PROJECTS_DATA) + list(PYTHON_ROADMAP_PROJECTS):
             db.add(
                 Project(
                     title=title,
@@ -340,9 +356,11 @@ async def seed():
                 db.add(UserBadge(user_id=demo_user.id, badge_id=badge.id))
 
         await db.commit()
+        total_problems = len(PROBLEMS) + len(PYTHON_ROADMAP_PROBLEMS)
+        total_projects = len(PROJECTS_DATA) + len(PYTHON_ROADMAP_PROJECTS)
         summary = (
             f"Seeded TechPath: {len(TRACKS)} tracks, {lesson_count} lessons, "
-            f"{len(PROBLEMS)} problems, {len(PROJECTS_DATA)} projects, "
+            f"{total_problems} problems, {total_projects} projects, "
             f"{len(BADGES)} badges, {len(JOB_PROFILES)} job profiles."
         )
         if demo_user:

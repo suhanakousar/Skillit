@@ -11,6 +11,7 @@ import type {
   Project,
   ReadinessResult,
   RoadmapNode,
+  RunResult,
   SubmissionResult,
   Track,
   User,
@@ -68,6 +69,10 @@ export const problemsApi = {
 export const submissionsApi = {
   submit: (problem_id: string, language: string, code: string) =>
     api.post<SubmissionResult>('/submissions', { problem_id, language, code }).then((r) => r.data),
+  run: (problem_id: string, language: string, code: string, custom_stdin?: string) =>
+    api
+      .post<RunResult>('/submissions/run', { problem_id, language, code, custom_stdin })
+      .then((r) => r.data),
   history: (problem_id: string) =>
     api.get(`/submissions/me/problem/${problem_id}`).then((r) => r.data),
 };

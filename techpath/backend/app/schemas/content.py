@@ -65,8 +65,10 @@ class SubmissionCreate(BaseModel):
 class TestCaseResult(BaseModel):
     index: int
     status: str
+    stdin: str | None = None
     stdout: str | None = None
     expected: str | None = None
+    stderr: str | None = None
     runtime_ms: int | None = None
 
 
@@ -77,8 +79,25 @@ class SubmissionResult(BaseModel):
     memory_kb: int | None
     percentile: float | None
     xp_awarded: int
+    passed: int
+    total: int
+    compile_error: str | None = None
+    failing_test: TestCaseResult | None = None
     test_results: list[TestCaseResult]
     submitted_at: datetime
+
+
+class RunCreate(BaseModel):
+    problem_id: UUID
+    language: str
+    code: str
+    custom_stdin: str | None = None
+
+
+class RunResult(BaseModel):
+    status: str
+    compile_error: str | None = None
+    results: list[TestCaseResult]
 
 
 class ProjectOut(BaseModel):

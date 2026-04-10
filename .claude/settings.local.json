@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(wc:*)",
+      "Bash(python -m py_compile app/content/python_roadmap_data.py)",
+      "Bash(python -m py_compile app/seed.py)",
+      "Bash(python -c \"from app.content.python_roadmap_data import PYTHON_ROADMAP_TRACKS, PYTHON_ROADMAP_LESSONS, PYTHON_ROADMAP_PROBLEMS, PYTHON_ROADMAP_PROJECTS; print\\('tracks:', len\\(PYTHON_ROADMAP_TRACKS\\)\\); print\\('lesson_tracks:', list\\(PYTHON_ROADMAP_LESSONS.keys\\(\\)\\)\\); print\\('lesson_total:', sum\\(len\\(v\\) for v in PYTHON_ROADMAP_LESSONS.values\\(\\)\\)\\); print\\('problems:', len\\(PYTHON_ROADMAP_PROBLEMS\\)\\); print\\('projects:', len\\(PYTHON_ROADMAP_PROJECTS\\)\\)\")",
+      "Bash(python -c ':*)",
+      "Bash(python -m py_compile app/routers/submissions.py app/schemas/content.py)",
+      "Bash(npx --no-install tsc --noEmit)"
+    ]
+  }
+}

@@ -84,6 +84,16 @@ export interface ProblemDetail extends ProblemSummary {
   hints_json: Array<{ level: number; text: string }>;
 }
 
+export interface TestCaseResult {
+  index: number;
+  status: string;
+  stdin?: string;
+  stdout?: string;
+  expected?: string;
+  stderr?: string;
+  runtime_ms?: number;
+}
+
 export interface SubmissionResult {
   id: string;
   status: 'accepted' | 'wrong_answer' | 'tle' | 'runtime_error' | 'compile_error' | 'pending';
@@ -91,8 +101,18 @@ export interface SubmissionResult {
   memory_kb: number | null;
   percentile: number | null;
   xp_awarded: number;
-  test_results: Array<{ index: number; status: string; stdout?: string; expected?: string; runtime_ms?: number }>;
+  passed: number;
+  total: number;
+  compile_error?: string | null;
+  failing_test?: TestCaseResult | null;
+  test_results: TestCaseResult[];
   submitted_at: string;
+}
+
+export interface RunResult {
+  status: string;
+  compile_error?: string | null;
+  results: TestCaseResult[];
 }
 
 export interface Project {
